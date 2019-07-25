@@ -21,8 +21,11 @@ class AranhaSpider(scrapy.Spider):
         itens= UfpeItem()
         titulo = response.css(':nth-child(3) tr:nth-child(1) td.metadataFieldValue::text').extract()
         resumo = response.css(':nth-child(3) tr:nth-child(6) td.metadataFieldValue::text').extract()
+        data = response.xpath('//div[2]/table[1]//tr[4]/td[2]/text()').extract_first()
         
         itens['titulo']=titulo
         itens['resumo']=resumo
+        itens['data']=data
+        
 
         yield itens
