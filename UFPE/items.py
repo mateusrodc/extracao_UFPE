@@ -11,5 +11,5 @@ import scrapy
 class UfpeItem(scrapy.Item):
     titulo = scrapy.Field()
     resumo = scrapy.Field()
-    data = scrapy.Field()
+    
     pass
