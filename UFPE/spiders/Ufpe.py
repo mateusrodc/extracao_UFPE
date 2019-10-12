@@ -17,21 +17,30 @@ class UfpeSpider(scrapy.Spider):
 
     def parse_article(self, response):
         itens = UfpeItem()
-
         content = unescape(response.body.decode("utf-8")).replace("\xa0", " ")
 
         regex_data = re.compile(
             "<td class=\"metadataFieldValue\">(?:<\s*a[^>]*>(.*?)<\s*/\s*a>)?(.*)<\s*/td>")
 
-        data = regex_data.findall(content)
-        data = ["".join(item) for item in data]
+        regex_title = re.compile('Title: </td><td class=\"metadataFieldValue\">([^<]+)')
+        regex_author = re.compile('Authors: </td><td class=\"metadataFieldValue\">(?:<\s*a[^>]*>(.*),(.*)<\s*/\s*a>)')
+        regex_keywords = re.compile('Keywords: </td><td class=\"metadataFieldValue\">([^<]+)')
+        regex_abstract = re.compile('Abstract: </td><td class=\"metadataFieldValue\">([^<]+)')
+        regex_uri = re.compile('URI: </td><td class=\"metadataFieldValue\">(?:<\s*a[^>]*>(.*?)<\s*/\s*a>)')
 
-        regex_types = re.compile("<td class=\"metadataFieldLabel\">([^:]*)")
+        title = regex_title.search(content)
+        author = regex_author.search(content)
+        keywords = regex_keywords.search(content)
+        abstract = regex_abstract.search(content)
+        uri = regex_uri.search(content)
 
-        types = regex_types.findall(content)
 
-        for i, _type in enumerate(types):
-            if _type in ['Title', 'Authors', 'Keywords', 'Abstract', 'URI']:
-                itens[_type.lower()] = data[i]
+        itens["title"] = title.group(1) if title else None
+        itens["author"] = f"{author.group(2).strip()} {author.group(1).capitalize()}" if author else None
+        itens["keywords"] = keywords.group(1).split(";") if keywords else None
+        itens["abstract"] = abstract.group(1) if abstract else None
+        itens["uri"] = uri.group(1) if abstract else None
+
 
         yield itens
+
