@@ -9,7 +9,8 @@ import scrapy
 
 
 class UfpeItem(scrapy.Item):
-    titulo = scrapy.Field()
-    resumo = scrapy.Field()
-    
-    pass
+    title = scrapy.Field()
+    authors = scrapy.Field()
+    keywords = scrapy.Field()
+    abstract = scrapy.Field()
+    uri = scrapy.Field()
