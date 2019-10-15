@@ -8,3 +8,8 @@
    
 ### bibliotecas
 ![scrapy](https://img.shields.io/badge/scrapy-1.7.3-green.svg)
+   
+### apresentação
+
+[/apresentacao.pdf](https://github.com/mateusrodc/extracao_UFPE/blob/com_regex/apresentacao.pdf)
+
