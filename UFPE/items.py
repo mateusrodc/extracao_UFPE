@@ -12,5 +12,7 @@ class UfpeItem(scrapy.Item):
     title = scrapy.Field()
     author = scrapy.Field()
     keywords = scrapy.Field()
+    date = scrapy.Field()
     abstract = scrapy.Field()
     uri = scrapy.Field()
+    type = scrapy.Field()
