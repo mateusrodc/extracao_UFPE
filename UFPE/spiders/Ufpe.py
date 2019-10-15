@@ -12,8 +12,12 @@ class UfpeSpider(scrapy.Spider):
 
     def parse(self, response):
         links = response.css('td:nth-child(2) a::attr(href)').extract()
+        next_page = response.css('.pagination li:last-child a::attr(href)').get()
         for link in links:
             yield response.follow(link, self.parse_article)
+        if next_page is not None:
+            next_page = response.urljoin(next_page)
+            yield scrapy.Request(next_page, callback=self.parse)
 
     def parse_article(self, response):
         itens = UfpeItem()
